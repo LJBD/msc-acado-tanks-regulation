@@ -21,7 +21,6 @@ int main( ){
     // INTRODUCE THE VARIABLES:
     // -------------------------
 
-//    DifferentialState     s,v,m;
     DifferentialState h1, h2, h3;
     Control               u    ;
     Parameter             T    ;
@@ -31,10 +30,6 @@ int main( ){
 
     // DEFINE A DIFFERENTIAL EQUATION:
     // -------------------------------
-
-//    f << dot(s) == v;
-//    f << dot(v) == (u-0.2*v*v)/m;
-//    f << dot(m) == -0.01*u*u;
     f << dot(h1) == (u - C1*sqrt(h1))/a*w;
     f << dot(h2) == (C1*sqrt(h1) - C2*sqrt(h2))/(c*w + h2*b*w/h_max);
     f << dot(h3) == (C2*sqrt(h2) - C3*sqrt(h3))/(w*sqrt(pow(R, 2) - pow((R - h3), 2)));
@@ -65,9 +60,9 @@ int main( ){
     // VISUALIZE THE RESULTS IN A GNUPLOT WINDOW:
     // ------------------------------------------
     GnuplotWindow window;
-        window.addSubplot( h1, "1st tank's level"      );
-        window.addSubplot( h2, "2nd tank's level"      );
-        window.addSubplot( h3, "3rd tank's level"          );
+        window.addSubplot( h1, "1st tank level");
+        window.addSubplot( h2, "2nd tank level");
+        window.addSubplot( h3, "3rd tank level");
         window.addSubplot( u, "THE CONTROL INPUT u" );
 
 

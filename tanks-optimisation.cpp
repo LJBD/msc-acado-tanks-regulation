@@ -37,7 +37,7 @@ int main( ){
 
     // DEFINE AN OPTIMAL CONTROL PROBLEM:
     // ----------------------------------
-    OCP ocp( 0, T, 50 );
+    OCP ocp( 0, T, 200.0 );
 
     ocp.minimizeMayerTerm( T );
     ocp.subjectTo( f );
@@ -50,11 +50,11 @@ int main( ){
     ocp.subjectTo( AT_END  , h2 == h2_final);
     ocp.subjectTo( AT_END  , h3 == h3_final);
 
-    ocp.subjectTo( 0 <= h1 <=  h_max  );
-    ocp.subjectTo( 0 <= h2 <=  h_max  );
+    ocp.subjectTo( 0.0 <= h1 <=  h_max  );
+    ocp.subjectTo( 0.0 <= h2 <=  h_max  );
     ocp.subjectTo( 0.001 <= h3 <=  h_max  ); //to avoid hitting singularity
-    ocp.subjectTo( 0 <= u <=  u_max  );
-//    ocp.subjectTo(  5.0 <= T <= 15.0  );
+    ocp.subjectTo( 0.0 <= u <=  u_max  );
+    ocp.subjectTo( 5.0 <= T <= 100.0  );
 
 
     // VISUALIZE THE RESULTS IN A GNUPLOT WINDOW:
@@ -70,11 +70,19 @@ int main( ){
     // ---------------------------------------------------
     OptimizationAlgorithm algorithm(ocp);
 
-    algorithm.set( MAX_NUM_ITERATIONS, 200 );
+    algorithm.set( MAX_NUM_ITERATIONS, 50 );
 // 	algorithm.set( HESSIAN_APPROXIMATION, EXACT_HESSIAN );
 // 	algorithm.set( HESSIAN_PROJECTION_FACTOR, 1.0 );
+    algorithm.set( INTEGRATOR_TOLERANCE, 1e-3);
+    algorithm.set( ABSOLUTE_TOLERANCE, 1e-3);
 
     algorithm << window;
+
+    // Additionally, flush a logging object
+    LogRecord logRecord( LOG_AT_EACH_ITERATION );
+    logRecord << LOG_KKT_TOLERANCE;
+
+    algorithm << logRecord;
 
 
 //     algorithm.initializeDifferentialStates("tor_states.txt");
@@ -86,6 +94,10 @@ int main( ){
 //     algorithm.getDifferentialStates("tor_states.txt");
 //     algorithm.getParameters("tor_pars.txt");
 //     algorithm.getControls("tor_controls.txt");
+
+    // Get the logging object back and print it
+    algorithm.getLogRecord( logRecord );
+//    logRecord.print( );
 
     return 0;
 }

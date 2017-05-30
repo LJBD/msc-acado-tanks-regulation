@@ -37,7 +37,8 @@ int main( ){
 
     // DEFINE AN OPTIMAL CONTROL PROBLEM:
     // ----------------------------------
-    OCP ocp( 0, T, 200.0 );
+    float t_max = 100.0;
+    OCP ocp( 0, T, t_max );
 
     ocp.minimizeMayerTerm( T );
     ocp.subjectTo( f );
@@ -54,7 +55,7 @@ int main( ){
     ocp.subjectTo( 0.0 <= h2 <=  h_max  );
     ocp.subjectTo( 0.001 <= h3 <=  h_max  ); //to avoid hitting singularity
     ocp.subjectTo( 0.0 <= u <=  u_max  );
-    ocp.subjectTo( 5.0 <= T <= 100.0  );
+    ocp.subjectTo( 20.0 <= T <= t_max  );
 
 
     // VISUALIZE THE RESULTS IN A GNUPLOT WINDOW:
@@ -73,8 +74,8 @@ int main( ){
     algorithm.set( MAX_NUM_ITERATIONS, 50 );
 // 	algorithm.set( HESSIAN_APPROXIMATION, EXACT_HESSIAN );
 // 	algorithm.set( HESSIAN_PROJECTION_FACTOR, 1.0 );
-    algorithm.set( INTEGRATOR_TOLERANCE, 1e-3);
-    algorithm.set( ABSOLUTE_TOLERANCE, 1e-3);
+    algorithm.set( INTEGRATOR_TOLERANCE, 1e-2);
+    algorithm.set( ABSOLUTE_TOLERANCE, 1e-2);
 
     algorithm << window;
 
@@ -87,7 +88,7 @@ int main( ){
 
 //     algorithm.initializeDifferentialStates("tor_states.txt");
 //     algorithm.initializeParameters("tor_pars.txt");
-//     algorithm.initializeControls("tor_controls.txt");
+     algorithm.initializeControls("tanks_control.txt");
 
     algorithm.solve();
 

@@ -32,7 +32,7 @@ int main( ){
     // -------------------------------
     f << dot(h1) == (u - C1*sqrt(h1))/a*w;
     f << dot(h2) == (C1*sqrt(h1) - C2*sqrt(h2))/(c*w + h2*b*w/h_max);
-    f << dot(h3) == (C2*sqrt(h2) - C3*sqrt(h3))/(w*sqrt(pow(R, 2) - pow((R - h3), 2)));
+    f << dot(h3) == (C2*sqrt(h2) - C3*sqrt(h3))/(w*sqrt(pow(R,2) - pow((R-h3),2)));
 
 
     // DEFINE AN OPTIMAL CONTROL PROBLEM:
